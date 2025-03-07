@@ -13,7 +13,7 @@ import Background3D from './components/Background3D';
 
 function App() {
   return (
-    <Router>
+    <Router basename='/sahal'>
       <div className="min-h-screen transition-colors">
         <Background3D />
         <Header />

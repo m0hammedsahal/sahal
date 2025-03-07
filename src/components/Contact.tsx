@@ -15,7 +15,7 @@ const Contact = () => {
       whileInView={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.8, delay: 0.2 }}
       viewport={{ once: true }}
-      className="relative py-20 mt-20 mx-10"
+      className="relative py-20 mt-20 mx-5"
     >
       {/* Floating Card Container */}
       <motion.div
