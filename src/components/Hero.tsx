@@ -70,14 +70,14 @@ const Hero = () => {
           >
             <Link
               to="/portfolio"
-              className="inline-flex items-center px-8 py-3 bg-gradient-to-r from-[#DAA520] to-[#FF4500] text-white rounded-full hover:from-[#FF6347] hover:to-[#FFD700] transition-all duration-300 transform hover:scale-105 group"
+              className="inline-flex items-center px-8 py-3 bg-gradient-to-r from-[#DAA520] to-[#FF4500] text-white rounded-full hover:from-[#FF6347] hover:to-[#FFD700] transition-all duration-300 transform hover:scale-105 group mt-5"
             >
               View My Work
               <ArrowRight className="ml-2 w-5 h-5 group-hover:translate-x-1 transition-transform" />
             </Link>
             <a
               href="/assets/resume.pdf"
-              className="inline-flex items-center px-8 py-3 border-2 border-white/20 text-white rounded-full hover:bg-white/10 transition-all duration-300 transform hover:scale-105"
+              className="inline-flex items-center px-8 py-3 border-2 border-white/20 text-white rounded-full hover:bg-white/10 transition-all duration-300 transform hover:scale-105 mt-5"
               target="_blank"
               rel="noopener noreferrer"
             >

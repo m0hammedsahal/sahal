@@ -7,6 +7,7 @@ import "swiper/css/effect-coverflow";
 import "swiper/css/pagination";
 import { useState } from "react";
 
+
 const projects =[
   {
     "title": "Food Delivery App",
@@ -148,11 +149,12 @@ const Projects = () => {
     >
       <h2 className="text-3xl font-bold text-white mb-5">Featured Projects</h2>
 
+      {/* Swiper Container */}
       <Swiper
         effect={"coverflow"}
         grabCursor={true}
         centeredSlides={true}
-        slidesPerView={"auto"}
+        slidesPerView={"auto"} // Use "auto" for dynamic slides
         coverflowEffect={{
           rotate: 15,
           stretch: 0,
@@ -164,17 +166,33 @@ const Projects = () => {
         autoplay={{ delay: 3000, disableOnInteraction: false }}
         modules={[EffectCoverflow, Pagination, Autoplay]}
         className="w-screen py-10"
+        breakpoints={{
+          // Responsive breakpoints
+          320: {
+            slidesPerView: 1, // 1 slide on mobile
+            spaceBetween: 10,
+          },
+          640: {
+            slidesPerView: 2, // 2 slides on tablets
+            spaceBetween: 20,
+          },
+          1024: {
+            slidesPerView: 3, // 3 slides on desktop
+            spaceBetween: 30,
+          },
+        }}
       >
         {projects.map((project, index) => (
-          <SwiperSlide key={index} className="w-80">
+          <SwiperSlide key={index} className="w-80 md:w-96"> {/* Wider cards on mobile */}
             <motion.div
               initial={{ opacity: 0, y: 20, scale: 0.9 }}
               whileInView={{ opacity: 1, y: 0, scale: 1 }}
-              whileHover={{ scale: 1.05, rotate: 2, boxShadow: "0px 10px 30px rgba(255, 200, 0, 0.3)" }}
+              whileHover={{ scale: 1.05 }}
               transition={{ duration: 0.5, delay: index * 0.2, type: "spring", stiffness: 150 }}
               viewport={{ once: true }}
-              className="backdrop-blur-md p-4 rounded-lg shadow-lg hover:shadow-xl transition-all transform cursor-pointer"
+              className="bg-gray-800/50 p-4 rounded-lg shadow-lg hover:shadow-xl transition-all transform cursor-pointer"
               onClick={() => handleProjectClick(project)}
+              style={{ willChange: "transform, opacity" }} // Optimize rendering
             >
               <h3 className="text-lg font-semibold text-white mb-2">
                 {project.title}
@@ -231,16 +249,17 @@ const Projects = () => {
             animate={{ opacity: 1, scale: 1 }}
             exit={{ opacity: 0, scale: 0.8 }}
             transition={{ type: "spring", stiffness: 100 }}
-            className="fixed inset-0 flex items-center justify-center bg-black/90 backdrop-blur-md z-50 p-6"
+            className="fixed inset-0 flex items-center justify-center bg-black/90 backdrop-blur-sm z-50 p-6" // Reduced blur intensity
             onClick={handleClose}
           >
             <motion.div
-              initial={{ y: -50, opacity: 0, rotateX: 45 }}
-              animate={{ y: 0, opacity: 1, rotateX: 0 }}
-              exit={{ y: -50, opacity: 0, rotateX: 45 }}
+              initial={{ y: -50, opacity: 0 }}
+              animate={{ y: 0, opacity: 1 }}
+              exit={{ y: -50, opacity: 0 }}
               transition={{ delay: 0.2, type: "spring", stiffness: 100 }}
               className="bg-gray-800 rounded-lg p-8 max-w-3xl w-full relative"
               onClick={(e) => e.stopPropagation()}
+              style={{ willChange: "transform, opacity" }} // Optimize rendering
             >
               <button
                 onClick={handleClose}
