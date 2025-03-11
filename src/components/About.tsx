@@ -6,7 +6,7 @@ const About = () => {
     {
       icon: <Code2 className="w-6 h-6" />,
       title: 'Frontend Development',
-      description: 'React.js, TypeScript, Tailwind CSS',
+      description: 'React.js, TypeScript, JavaScript, Tailwind CSSxc ',
     },
     {
       icon: <Server className="w-6 h-6" />,

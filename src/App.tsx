@@ -10,6 +10,7 @@ import Footer from './components/Footer';
 import { Contact } from 'lucide-react';
 import NotFound from './components/NotFound';
 import Background3D from './components/Background3D';
+import HomeBg from './components/HomeBg';
 
 function App() {
   return (

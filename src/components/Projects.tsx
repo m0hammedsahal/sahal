@@ -1,3 +1,4 @@
+
 import { motion, AnimatePresence } from "framer-motion";
 import { Github, ExternalLink } from "lucide-react";
 import { Swiper, SwiperSlide } from "swiper/react";
@@ -7,19 +8,20 @@ import "swiper/css/effect-coverflow";
 import "swiper/css/pagination";
 import { useState } from "react";
 
-const projects =[
+
+const projects = [
   {
-    "title": "Food Delivery App",
-    "description": "A multi-restaurant food ordering platform with real-time order tracking.",
-    "tech": ["Django", "React.js", "PostgreSQL"],
-    "features": [
+    title: "Food Delivery App",
+    description: "A multi-restaurant food ordering platform with real-time order tracking.",
+    tech: ["Django", "React.js", "PostgreSQL"],
+    features: [
       "Multiple restaurant support",
       "Real-time order tracking",
       "Discount & coupon system",
-      "Secure payment integration"
+      "Secure payment integration",
     ],
-    "live": "",
-    "code": ""
+    live: "https://github.com/m0hammedsahal/restorant",
+    code: "https://github.com/m0hammedsahal/restorant",
   },
   {
     "title": "Blogging Platform",
@@ -31,8 +33,8 @@ const projects =[
       "SEO-optimized content",
       "User authentication"
     ],
-    "live": "https://github.com/m0hammedsahal/simple-reacts",
-    "code": "https://github.com/m0hammedsahal/simple-reacts"
+    "live": "https://github.com/m0hammedsahal/blogger",
+    "code": "https://github.com/m0hammedsahal/blogger"
   },
   {
     "title": "Job Portal",
@@ -44,8 +46,8 @@ const projects =[
       "Search & filter job listings",
       "Employer dashboard"
     ],
-    "live": "",
-    "code": ""
+    "live": "https://github.com/m0hammedsahal/job-portal",
+    "code": "https://github.com/m0hammedsahal/job-portal"
   },
   {
     "title": "Property Marketplace",
@@ -57,8 +59,8 @@ const projects =[
       "User reviews & ratings",
       "Secure booking system"
     ],
-    "live": "",
-    "code": ""
+    "live": "https://github.com/m0hammedsahal/renex-backent",
+    "code": "https://github.com/m0hammedsahal/renex-backent"
   },
   {
     "title": "Mobile Sales E-commerce",
@@ -83,8 +85,8 @@ const projects =[
       "Secure payment gateway",
       "User reviews & ratings"
     ],
-    "live": "",
-    "code": ""
+    "live": "https://github.com/m0hammedsahal/LuxuryBite",
+    "code": "https://github.com/m0hammedsahal/LuxuryBite"
   },
   {
     "title": "Interior Design Website",
@@ -96,8 +98,8 @@ const projects =[
       "Client testimonials",
       "Responsive design"
     ],
-    "live": "",
-    "code": ""
+    "live": "https://m0hammedsahal.github.io/zain-interiour/",
+    "code": "https://github.com/m0hammedsahal/zain-interiour"
   },
   {
     "title": "To-Do List App",
@@ -109,7 +111,7 @@ const projects =[
       "Local storage support",
       "Minimalist UI"
     ],
-    "live": "",
+    "live": "https://github.com/m0hammedsahal/To-Do-with-React",
     "code": "https://github.com/m0hammedsahal/To-Do-with-React"
   },
   {
@@ -122,7 +124,7 @@ const projects =[
       "Secure user authentication",
       "Order history & tracking"
     ],
-    "live": "",
+    "live": "https://github.com/m0hammedsahal/Amazone-clone-",
     "code": ""
   }
 ];
@@ -148,6 +150,7 @@ const Projects = () => {
     >
       <h2 className="text-3xl font-bold text-white mb-5">Featured Projects</h2>
 
+      {/* Swiper Component */}
       <Swiper
         effect={"coverflow"}
         grabCursor={true}
@@ -163,10 +166,10 @@ const Projects = () => {
         pagination={{ clickable: true }}
         autoplay={{ delay: 3000, disableOnInteraction: false }}
         modules={[EffectCoverflow, Pagination, Autoplay]}
-        className="w-screen py-10"
+        className="w-full py-10"
       >
         {projects.map((project, index) => (
-          <SwiperSlide key={index} className="w-60 md:w-80">
+          <SwiperSlide key={index} className="w-64 md:w-80">
             <motion.div
               initial={{ opacity: 0, y: 20, scale: 0.9 }}
               whileInView={{ opacity: 1, y: 0, scale: 1 }}
@@ -176,14 +179,10 @@ const Projects = () => {
               className="backdrop-blur-md p-4 rounded-lg shadow-lg hover:shadow-xl transition-all transform cursor-pointer"
               onClick={() => handleProjectClick(project)}
             >
-              <h3 className="text-lg font-semibold text-white mb-2">
-                {project.title}
-              </h3>
+              <h3 className="text-lg font-semibold text-white mb-2">{project.title}</h3>
               <p className="text-gray-300 text-sm mb-3">{project.description}</p>
               <div className="mb-3">
-                <h4 className="text-[#FF4500] font-semibold mb-1 text-sm">
-                  Key Features:
-                </h4>
+                <h4 className="text-[#FF4500] font-semibold mb-1 text-sm">Key Features:</h4>
                 <ul className="list-disc list-inside text-gray-300 text-xs">
                   {project.features.map((feature, i) => (
                     <li key={i} className="mb-1">
@@ -248,14 +247,10 @@ const Projects = () => {
               >
                 ✕
               </button>
-              <h3 className="text-2xl font-bold text-white mb-4">
-                {selectedProject.title}
-              </h3>
+              <h3 className="text-2xl font-bold text-white mb-4">{selectedProject.title}</h3>
               <p className="text-gray-300 mb-6">{selectedProject.description}</p>
               <div className="mb-6">
-                <h4 className="text-[#FF4500] font-semibold mb-2 text-lg">
-                  Key Features:
-                </h4>
+                <h4 className="text-[#FF4500] font-semibold mb-2 text-lg">Key Features:</h4>
                 <ul className="list-disc list-inside text-gray-300">
                   {selectedProject.features.map((feature, i) => (
                     <li key={i} className="mb-2">
@@ -297,6 +292,3 @@ const Projects = () => {
 };
 
 export default Projects;
-
-
-
