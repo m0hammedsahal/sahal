@@ -2,14 +2,20 @@ import { motion } from 'framer-motion';
 import { ArrowRight } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { TypeAnimation } from 'react-type-animation';
+import Spline from '@splinetool/react-spline';
 
 const Hero = () => {
   return (
     <div className="relative min-h-screen">
-      <div className="absolute inset-0 bg-gradient-to-b from-transparent to-black/30" />
+      {/* Spline Scene */}
+      <Spline scene="https://prod.spline.design/9ZtAYys33HZWYmFx/scene.splinecode" className="absolute inset-0 z-20" />
       
+
+      {/* Overlay Gradient */}
+      <div className="absolute inset-0 bg-gradient-to-b from-transparent to-black/30 z-10" />
+
       {/* Main Content */}
-      <div className="container mx-auto px-6 relative z-10 pt-32">
+      <div className="container mx-auto px-6 relative z-20 pt-32">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
@@ -49,15 +55,15 @@ const Hero = () => {
               repeat={Infinity}
             />
           </motion.div>
-          
+
           {/* Introduction */}
           <motion.p
-            className="text-xl text-gray-300 mb-8 max-w-3xl mx-auto"
+            className="text-xl text-gray-300 mb-8 max-w-3xl mx-auto z-50"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ delay: 0.4 }}
           >
-            I'm a passionate and results-driven Full Stack Developer specializing in Python, Django, React.js, and PostgreSQL. 
+            I'm a passionate and results-driven Full Stack Developer specializing in Python, Django, React.js, and PostgreSQL.
             I build scalable, high-performance web applications that provide seamless user experiences.
           </motion.p>
 
