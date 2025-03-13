@@ -7,7 +7,6 @@ import "swiper/css";
 import "swiper/css/effect-coverflow";
 import "swiper/css/pagination";
 import { useState } from "react";
-import Spline from '@splinetool/react-spline';
 
 
 const projects = [
@@ -148,13 +147,7 @@ const Projects = () => {
       transition={{ delay: 0.5 }}
       className="text-center w-screen mt-24 bg-gray-600/10 pt-10 pb-5 relative overflow-hidden" // Added relative and overflow-hidden
     >
-      {/* Spline Background */}
-      <div className="absolute inset-0 z-0 w-full h-full">
-        <Spline
-          scene="https://prod.spline.design/vR1as7vGY099MOEc/scene.splinecode"
-          className="w-full h-full object-cover"
-        />
-      </div>
+      
 
       {/* Content */}
       <div className="relative z-10"> {/* Added relative and z-10 to ensure content is above the background */}

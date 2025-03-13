@@ -13,38 +13,38 @@ const Contact = () => {
     <motion.div
       initial={{ opacity: 0, y: 20 }}
       whileInView={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.8, delay: 0.2 }}
+      transition={{ duration: 0.4, ease: 'easeOut' }}
       viewport={{ once: true }}
       className="relative py-20 mt-20 mx-5"
     >
       {/* Floating Card Container */}
       <motion.div
-        initial={{ opacity: 0, y: 30, scale: 0.95 }}
+        initial={{ opacity: 0, y: 30, scale: 0.98 }}
         whileInView={{ opacity: 1, y: 0, scale: 1 }}
-        transition={{ duration: 0.8, delay: 0.4, type: 'spring', stiffness: 100 }}
+        transition={{ duration: 0.4, delay: 0.1, ease: 'easeOut' }}
         className="bg-gray-900/20 backdrop-blur-lg p-8 rounded-2xl shadow-2xl text-gray-300 max-w-3xl mx-auto px-10 border border-gray-800/20 relative overflow-hidden"
       >
         {/* Gradient Background */}
         <motion.div
-          initial={{ opacity: 0, scale: 0.8 }}
+          initial={{ opacity: 0, scale: 0.95 }}
           whileInView={{ opacity: 1, scale: 1 }}
-          transition={{ duration: 0.8, delay: 0.6 }}
+          transition={{ duration: 0.4, delay: 0.2, ease: 'easeOut' }}
           className="absolute inset-0 bg-gradient-to-r from-yellow-600/10 to-orange-500/10 rounded-2xl -z-10"
         />
 
         {/* Title and Description */}
         <motion.h2
-          initial={{ opacity: 0, y: 20 }}
+          initial={{ opacity: 0, y: 10 }}
           whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8, delay: 0.6 }}
+          transition={{ duration: 0.4, delay: 0.2, ease: 'easeOut' }}
           className="text-3xl font-bold text-white mb-4 text-center"
         >
           📩 Get in Touch
         </motion.h2>
         <motion.p
-          initial={{ opacity: 0, y: 20 }}
+          initial={{ opacity: 0, y: 10 }}
           whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8, delay: 0.8 }}
+          transition={{ duration: 0.4, delay: 0.3, ease: 'easeOut' }}
           className="text-gray-400 text-lg text-center mb-6"
         >
           Have a question or want to collaborate? Drop me a message!
@@ -54,10 +54,10 @@ const Contact = () => {
         <form onSubmit={handleSubmit} className="space-y-4">
           {/* Name Input */}
           <motion.div
-            initial={{ opacity: 0, y: 20 }}
+            initial={{ opacity: 0, y: 10 }}
             whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 1 }}
-            whileHover={{ scale: 1.02 }}
+            transition={{ duration: 0.4, delay: 0.4, ease: 'easeOut' }}
+            whileHover={{ scale: 1.01 }}
             className="relative"
           >
             <input
@@ -70,10 +70,10 @@ const Contact = () => {
 
           {/* Email Input */}
           <motion.div
-            initial={{ opacity: 0, y: 20 }}
+            initial={{ opacity: 0, y: 10 }}
             whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 1.2 }}
-            whileHover={{ scale: 1.02 }}
+            transition={{ duration: 0.4, delay: 0.5, ease: 'easeOut' }}
+            whileHover={{ scale: 1.01 }}
             className="relative"
           >
             <input
@@ -86,10 +86,10 @@ const Contact = () => {
 
           {/* Message Textarea */}
           <motion.div
-            initial={{ opacity: 0, y: 20 }}
+            initial={{ opacity: 0, y: 10 }}
             whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 1.4 }}
-            whileHover={{ scale: 1.02 }}
+            transition={{ duration: 0.4, delay: 0.6, ease: 'easeOut' }}
+            whileHover={{ scale: 1.01 }}
             className="relative"
           >
             <textarea
@@ -102,10 +102,10 @@ const Contact = () => {
 
           {/* Submit Button */}
           <motion.div
-            initial={{ opacity: 0, y: 20 }}
+            initial={{ opacity: 0, y: 10 }}
             whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 1.6 }}
-            whileHover={{ scale: 1.05 }}
+            transition={{ duration: 0.4, delay: 0.7, ease: 'easeOut' }}
+            whileHover={{ scale: 1.02 }}
             className="relative"
           >
             <button
@@ -122,7 +122,7 @@ const Contact = () => {
       <motion.div
         initial={{ opacity: 0 }}
         whileInView={{ opacity: 1 }}
-        transition={{ duration: 0.8, delay: 0.4 }}
+        transition={{ duration: 0.4, delay: 0.2, ease: 'easeOut' }}
         className="absolute inset-0 bg-gradient-to-r from-yellow-600/10 to-orange-500/10 blur-3xl -z-10"
       />
 
@@ -130,17 +130,17 @@ const Contact = () => {
       <AnimatePresence>
         {isSubmitted && (
           <motion.div
-            initial={{ opacity: 0, scale: 0.5 }}
+            initial={{ opacity: 0, scale: 0.95 }}
             animate={{ opacity: 1, scale: 1 }}
-            exit={{ opacity: 0, scale: 0.5 }}
-            transition={{ type: 'spring', stiffness: 100 }}
+            exit={{ opacity: 0, scale: 0.95 }}
+            transition={{ duration: 0.3, ease: 'easeOut' }}
             className="fixed inset-0 flex items-center justify-center bg-black/50 backdrop-blur-md z-50"
           >
             <motion.div
-              initial={{ opacity: 0, y: -50 }}
+              initial={{ opacity: 0, y: -20 }}
               animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -50 }}
-              transition={{ delay: 0.2, type: 'spring', stiffness: 100 }}
+              exit={{ opacity: 0, y: -20 }}
+              transition={{ duration: 0.3, delay: 0.1, ease: 'easeOut' }}
               className="bg-gray-900/80 backdrop-blur-lg p-8 rounded-2xl shadow-2xl text-center"
             >
               <h2 className="text-3xl font-bold text-white mb-4">🎉 Thank You!</h2>
