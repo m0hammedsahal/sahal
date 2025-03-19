@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Header from './components/Header';
 import Hero from './components/Hero';
@@ -11,24 +11,36 @@ import { Contact } from 'lucide-react';
 import NotFound from './components/NotFound';
 import Background3D from './components/Background3D';
 import HomeBg from './components/HomeBg';
+import LoadingAnimation from './LoadingAnimation';
+import Spinner from './components/Spinner';
+import HeroLoader from './components/HeroLoader';
 
 function App() {
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    setTimeout(() => setLoading(false), 2000); // Simulate loading
+  }, []);
+
   return (
     <Router basename='/sahal'>
       <div className="min-h-screen transition-colors">
         <Background3D />
         <Header />
         <Routes>
-          <Route path="/" element={
-            <>
-              <Hero />
-              <About />
-              <Skills />
-              <Projects />
-              <Contactpage />
-              <Footer />
-            </>
-          } />
+          <Route
+            path="/"
+            element={
+              <>
+                {loading ? <Spinner /> : <Hero />}
+                <About />
+                <Skills />
+                <Projects />
+                <Contactpage />
+                <Footer />
+              </>
+            }
+          />
           <Route path="/about" element={<About />} />
           <Route path="/portfolio" element={<Projects />} />
           <Route path="/skills" element={<Skills />} />

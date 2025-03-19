@@ -3,12 +3,20 @@ import { ArrowRight } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { TypeAnimation } from 'react-type-animation';
 import Spline from '@splinetool/react-spline';
+import React, { useState, useEffect } from "react";
+import Spinner from './Spinner';
+import LoadingAnimation from '../LoadingAnimation';
 
 const Hero = () => {
+
+  const [isLoading, setIsLoading] = useState(true);
+  useEffect(() => {
+    setTimeout(() => setIsLoading(false), 2000); // Simulate loading
+  }, []);
+
   return (
     <div className="relative min-h-screen">
-      {/* Spline Scene */}
-      <Spline scene="https://prod.spline.design/9ZtAYys33HZWYmFx/scene.splinecode" className="absolute inset-0 z-20" />
+      {isLoading ? <LoadingAnimation /> : <Spline scene="https://prod.spline.design/9ZtAYys33HZWYmFx/scene.splinecode" className="absolute inset-0 z-20" />}
       
 
       {/* Overlay Gradient */}
