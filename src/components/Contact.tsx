@@ -529,4 +529,3 @@ const Contact = () => {
 };
 
 export default Contact;
-example
