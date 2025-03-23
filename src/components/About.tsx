@@ -1,6 +1,7 @@
 import { motion } from 'framer-motion';
 import { Code2, Database, Globe, Server, Github, Linkedin, Mail } from 'lucide-react';
 
+
 const About = () => {
   const skills = [
     {
@@ -27,7 +28,6 @@ const About = () => {
 
   return (
     <section className="py-20 bg-gradient-to-br from-gray-900/20 to-gray-800/20">
-      
 
       <div className="container mx-auto px-6">
         {/* Title and Description */}

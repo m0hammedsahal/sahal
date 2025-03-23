@@ -1,81 +1,204 @@
-import { Canvas, useFrame } from '@react-three/fiber';
-import { OrbitControls, Sphere, MeshDistortMaterial } from '@react-three/drei';
-import { useMemo, useRef } from 'react';
+import React, { useRef, useMemo, useState, useEffect } from 'react';
+import { Canvas, useFrame, useThree } from '@react-three/fiber';
+import { Points, PointMaterial, useGLTF, Float } from '@react-three/drei';
 import * as THREE from 'three';
+import { random } from 'maath';
 
-const ParticleField = () => {
-  const points = useMemo(() => {
-    const p = [];
-    for (let i = 0; i < 1000; i++) {
-      const x = THREE.MathUtils.randFloatSpread(20);
-      const y = THREE.MathUtils.randFloatSpread(20);
-      const z = THREE.MathUtils.randFloatSpread(20);
-      p.push(new THREE.Vector3(x, y, z));
-    }
-    return p;
-  }, []);
+function ParticleField({ count = 5000, mouse }) {
+  const points = useRef<THREE.Points>(null!);
+  
+  const positions = useMemo(() => {
+    const positions = new Float32Array(count * 3);
+    random.inSphere(positions, { radius: 20 });
+    return positions;
+  }, [count]);
 
-  const particlesRef = useRef();
-
-  useFrame((state) => {
-    if (particlesRef.current) {
-      particlesRef.current.rotation.x += 0.001;
-      particlesRef.current.rotation.y += 0.001;
+  useFrame((state, delta) => {
+    if (points.current) {
+      points.current.rotation.x -= delta * 0.1;
+      points.current.rotation.y -= delta * 0.05;
+      points.current.rotation.x += (mouse.current[1] * 0.5 - points.current.rotation.x) * 0.1;
+      points.current.rotation.y += (mouse.current[0] * 0.5 - points.current.rotation.y) * 0.1;
     }
   });
 
   return (
-    <group ref={particlesRef}>
-      {points.map((point, i) => (
-        <Sphere key={i} position={[point.x, point.y, point.z]} args={[0.02]}>
-          <meshStandardMaterial color="#fff" emissive="#fff" emissiveIntensity={0.5} />
-        </Sphere>
+    <Points ref={points} positions={positions} stride={3}>
+      <PointMaterial
+        transparent
+        color="#DAA520"
+        size={0.02}
+        sizeAttenuation={true}
+        depthWrite={false}
+        blending={THREE.AdditiveBlending}
+      />
+    </Points>
+  );
+}
+
+function FloatingShapes({ mouse }) {
+  const shapesGroup = useRef<THREE.Group>(null!);
+  const shapes = useMemo(() => {
+    return Array.from({ length: 10 }, (_, i) => ({
+      position: [
+        Math.random() * 20 - 10,
+        Math.random() * 20 - 10,
+        Math.random() * 20 - 10
+      ],
+      rotation: [Math.random() * Math.PI, Math.random() * Math.PI, 0],
+      scale: 0.5 + Math.random() * 0.5,
+      speed: 0.1 + Math.random() * 0.2,
+      type: Math.floor(Math.random() * 3),
+      color: i % 2 === 0 ? "#DAA520" : "#FF4500"
+    }));
+  }, []);
+
+  useFrame((state, delta) => {
+    if (shapesGroup.current) {
+      shapesGroup.current.rotation.y += delta * 0.05;
+      shapesGroup.current.rotation.x += delta * 0.03;
+      
+      shapesGroup.current.rotation.x += (mouse.current[1] * 0.2 - shapesGroup.current.rotation.x) * 0.1;
+      shapesGroup.current.rotation.y += (mouse.current[0] * 0.2 - shapesGroup.current.rotation.y) * 0.1;
+      
+      shapesGroup.current.children.forEach((shape, i) => {
+        shape.rotation.x += delta * shapes[i].speed;
+        shape.rotation.z += delta * shapes[i].speed * 0.5;
+        
+        const scale = shapes[i].scale + Math.sin(state.clock.elapsedTime * shapes[i].speed) * 0.1;
+        shape.scale.set(scale, scale, scale);
+      });
+    }
+  });
+
+  return (
+    <group ref={shapesGroup}>
+      {shapes.map((shape, i) => (
+        <Float key={i} speed={2} rotationIntensity={1} floatIntensity={2}>
+          <mesh position={shape.position as [number, number, number]}>
+            {shape.type === 0 ? (
+              <boxGeometry args={[1, 1, 1]} />
+            ) : shape.type === 1 ? (
+              <sphereGeometry args={[0.5, 32, 32]} />
+            ) : (
+              <torusGeometry args={[0.5, 0.2, 16, 32]} />
+            )}
+            <meshPhongMaterial
+              color={shape.color}
+              transparent
+              opacity={0.6}
+              shininess={100}
+              specular={new THREE.Color(shape.color === "#DAA520" ? "#FFD700" : "#FF6347")}
+            />
+          </mesh>
+        </Float>
       ))}
     </group>
   );
-};
+}
 
-const AnimatedSphere = () => {
-  const sphereRef = useRef();
+function GlowingOrbs({ count = 20, mouse }) {
+  const orbs = useRef<THREE.Group>(null!);
+  const positions = useMemo(() => {
+    return Array.from({ length: count }, (_, i) => ({
+      position: [
+        Math.random() * 30 - 15,
+        Math.random() * 30 - 15,
+        Math.random() * 30 - 15
+      ],
+      scale: 0.2 + Math.random() * 0.3,
+      speed: 0.2 + Math.random() * 0.3,
+      color: i % 2 === 0 ? "#DAA520" : "#FF4500"
+    }));
+  }, [count]);
 
-  useFrame((state) => {
-    if (sphereRef.current) {
-      sphereRef.current.rotation.x = state.clock.getElapsedTime() * 0.3;
-      sphereRef.current.rotation.y = state.clock.getElapsedTime() * 0.4;
+  useFrame((state, delta) => {
+    if (orbs.current) {
+      orbs.current.children.forEach((orb, i) => {
+        orb.position.y += Math.sin(state.clock.elapsedTime * positions[i].speed) * 0.01;
+        
+        const material = orb.material as THREE.MeshPhongMaterial;
+        material.emissiveIntensity = 0.5 + Math.sin(state.clock.elapsedTime * positions[i].speed) * 0.2;
+      });
     }
   });
 
   return (
-    <Sphere ref={sphereRef} args={[2, 64, 64]} scale={1.5}>
-      <MeshDistortMaterial
-        color="#FF4500"
-        attach="material"
-        distort={0.5}
-        speed={2}
-        roughness={0}
-        metalness={0.8}
-      />
-    </Sphere>
+    <group ref={orbs}>
+      {positions.map((config, i) => (
+        <mesh key={i} position={config.position as [number, number, number]}>
+          <sphereGeometry args={[config.scale, 32, 32]} />
+          <meshPhongMaterial
+            color={config.color}
+            emissive={config.color}
+            emissiveIntensity={0.5}
+            transparent
+            opacity={0.3}
+          />
+        </mesh>
+      ))}
+    </group>
   );
-};
+}
 
-const Background3D = () => {
+function Scene({ mouse }) {
+  const { camera } = useThree();
+  
+  useFrame((state) => {
+    camera.position.x += (mouse.current[0] * 2 - camera.position.x) * 0.02;
+    camera.position.y += (-mouse.current[1] * 2 - camera.position.y) * 0.02;
+    camera.lookAt(0, 0, 0);
+  });
+
   return (
-    <div className="fixed top-0 left-0 w-full h-full -z-10">
-      <Canvas camera={{ position: [0, 0, 15] }}>
-        <color attach="background" args={['#0A0A0F']} />
-        <ambientLight intensity={0.5} />
-        <pointLight position={[10, 10, 10]} intensity={1} />
-        <AnimatedSphere />
-        <ParticleField />
-        <OrbitControls
-          enableZoom={false}
-          enablePan={false}
-          autoRotate
-          autoRotateSpeed={0.5}
-          maxPolarAngle={Math.PI / 2}
-          minPolarAngle={Math.PI / 2}
-        />
+    <>
+      <ambientLight intensity={0.5} />
+      <pointLight position={[10, 10, 10]} intensity={1} color="#DAA520" />
+      <pointLight position={[-10, -10, -10]} intensity={0.5} color="#FF4500" />
+      <ParticleField mouse={mouse} />
+      <FloatingShapes mouse={mouse} />
+      <GlowingOrbs mouse={mouse} />
+    </>
+  );
+}
+
+const Background3D: React.FC = () => {
+  const mouse = useRef<[number, number]>([0, 0]);
+  const [reduceMotion, setReduceMotion] = useState(false);
+
+  useEffect(() => {
+    const handleMouseMove = (event: MouseEvent) => {
+      mouse.current = [
+        (event.clientX / window.innerWidth) * 2 - 1,
+        -(event.clientY / window.innerHeight) * 2 + 1
+      ];
+    };
+
+    const handleReduceMotion = (event: MediaQueryListEvent) => {
+      setReduceMotion(event.matches);
+    };
+
+    const mediaQuery = window.matchMedia('(prefers-reduced-motion: reduce)');
+    setReduceMotion(mediaQuery.matches);
+    mediaQuery.addEventListener('change', handleReduceMotion);
+    window.addEventListener('mousemove', handleMouseMove);
+
+    return () => {
+      mediaQuery.removeEventListener('change', handleReduceMotion);
+      window.removeEventListener('mousemove', handleMouseMove);
+    };
+  }, []);
+
+  return (
+    <div className="fixed inset-0 -z-10">
+      <Canvas
+        camera={{ position: [0, 0, 25], fov: 60 }}
+        style={{ background: 'linear-gradient(to bottom, #0f172a, #1e293b)' }}
+        gl={{ antialias: true }}
+        dpr={[1, 2]}
+      >
+        <Scene mouse={mouse} />
+        <fog attach="fog" args={['#1e293b', 20, 40]} />
       </Canvas>
     </div>
   );
